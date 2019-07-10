@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{
+	margin:0;
+	padding:0;
+	}
+	img {
+		vertical-align:top;
+	}
+.slider_box{
+ float:left;
+  width:110px;
+  height:160px;
+  margin:20px 0 0 20px;
+  overflow:hidden;
+  position:relative;
+}
+.all{
+  position: relative;
+  width: 110px;
+  height: 160px;
+  padding: 0px;
+}
+.inner{
+  position:relative;
+  width:110px;
+  height:160px;
+  overflow:hidden;
+}
+.inner ul{
+  width:2070px;
+  list-style:none;
+  position:absolute;
+  top:0;
+  left:0;
+}
+.inner ul li{
+  float:left;
+  
+
+}
+.inner ol{
+  position:absolute;
+  right:30px;
+  bottom:10px;
+}
+.inner ol li{
+  width:15px;
+  display:inline-block;
+  height:15px;
+  margin:0 3px;
+  cursor:pointer;
+  line-height:15px;
+  text-align:center;
+  background:#fff;
+	z-index:100;
+}
+.inner ol .current{
+  background:orange;
+  color:#fff;
+}
+.inner img{
+  width:95px;
+  height:84px;
+}
+.prev,.next{
+  display:block;
+  width:36px;
+  height:35px;
+  position:absolute;
+  z-index:10;
+  top:20px;
+	margin-top:-22.5px;
+  text-indent:-999em;
+  overflow:hidden;
+  background:url(images/slider-arrow.png) no-repeat;
+  transition:all .3s ease;
+  opacity:0.8;
+  cursor:pointer;
+}
+.prev{
+   left:-100%;
+   background-position:0 0;
+ }
+.next{
+  right:-100%;
+  background-position:-36px 0;
+}
+.inner:hover .prev{
+  left:5%;
+}
+.inner:hover .next {
+  right:5%;
+}
+.inner .prev:hover,.inner .next:hover{
+  opacity:1;
+}
+	</style>
+</head>
+<body>
+<div style="margin:100px auto;">
+	<div>
+		<div>
+			
+		<div class="slider_box">
+      <div class="all" id="box">
+        <div class="inner">
+         <ul>
+              <li></li> 
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15620569468446.gif" alt=""/>
+                    </a>
+                  </div>
+                 
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15603917528173.gif" alt=""/>
+                    </a>
+                  </div>
+                 
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15598736263921.gif" alt=""/>
+                    </a>
+                  </div>
+                
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15592686441392.gif" alt=""/>
+                    </a>
+                  </div>
+                 
+                
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15591813372349.gif" alt=""/>
+                    </a>
+                  </div>
+                 
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15567640406544.gif" alt=""/>
+                    </a>
+                  </div>
+                
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15562686675585.gif" alt=""/>
+                    </a>
+                  </div>
+                
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15531404054338.gif" alt=""/>
+                    </a>
+                  </div>
+                
+                </li>
+                <li>
+                  <div class="pic">
+                    <a href="">
+                      <img src="images/15507196068635.gif" alt=""/>
+                    </a>
+                  </div>
+               
+                </li>
+               
+              
+              
+         </ul>
+         <ol></ol>
+				<span id="left" class="prev"></span>
+         <span id="right" class="next"></span>
+        </div>      
+      </div>
+		</div>
+  </div>
+		</div>
+	</div>
+</div>
+
+	<script>
+	 var index=0;
+  //获取最外面的div
+		console.log(box);
+  var box = document.getElementById("box");
+	console.log(box);
+  //获取相框
+  var inner = box.children[0];
+  //获取去相框的宽度
+  var imgWidth = 110;
+  // 获取ul
+  var ulObj = inner.children[0];
+  //获取ul中所有的li
+  var list = ulObj.children;
+  //获取ol
+  var olObj = inner.children[1];
+  //获取焦点
+  //var arr = my$("arr");
+	//获取左按钮
+	var left = document.getElementById("left");
+	//获取右按钮
+	var right = document.getElementById("right");
+  //创建小按钮-----根据ul中li的个数
+  for (var i = 0; i < list.length; i++) {
+    var liObjs = document.createElement("li");
+    olObj.appendChild(liObjs);
+    liObjs.innerHTML = (i + 1);
+    //在ol中每个li中增加自定义属性，添加索引值
+    liObjs.setAttribute("index", i);
+    //注册鼠标进入事件
+    liObjs.onmouseover = function () {
+      //先干掉所有背景颜色
+      for (var j = 0; j < olObj.children.length; j++) {
+        olObj.children[j].removeAttribute("class");
+      }
+      //设置当前鼠标进来的类样式
+      this.className = "current";
+      //获取ol中li的索引值
+       index = this.getAttribute("index");
+      //移动ul
+      animate(ulObj, -index *imgWidth); //移动动画函数
+    };
+  }
+ 
+	
+	var timeId=setInterval(clickHandle,3000);
+ 
+  box.onmouseover=function(){
+   //arr.style.display="block";
+   clearInterval(timeId);
+  };
+    //点击右边按钮
+    right.onclick=clickHandle;
+    function clickHandle() {
+      if (index==ulObj.children.length-1){
+        ulObj.style.left=0+"px";
+        index=0;
+      }
+      index++;
+      animate(ulObj,-index*imgWidth);
+      if (index==list.length-1){
+        olObj.children[0].className="current";
+        olObj.children[olObj.children.length-1].className="";
+      }else {
+        for (var i=0;i<olObj.children.length;i++){
+          olObj.children[i].className="";
+        }
+        olObj.children[index].className="current";
+      }
+    };
+    //点击左边按钮
+    left.onclick=function () {
+      if (index==0){
+        index=list.length-1;
+        ulObj.style.left=-index*imgWidth+"px";
+      }
+      index--;
+      animate(ulObj,-index*imgWidth);
+      for (var i=0;i<olObj.children.length;i++){
+        olObj.children[i].className="";
+      }
+      olObj.children[index].className="current";
+    };
+ 
+  box.onmouseout=function(){
+    //arr.style.display="block";
+    timeId=setInterval(clickHandle,3000);
+  };
+ 
+	// 设置一个元素，移动到指定位置
+  function animate(element, target) {
+    clearInterval(element.timeId);
+    element.timeId = setInterval(function () {
+      var current = element.offsetLeft;
+      var step = 10;
+      step = current > target ? -step : step;
+      current += step;
+      if (Math.abs(target - current) > Math.abs(step)) {
+        element.style.left = current + "px";
+      } else {
+        clearInterval(element.timeId);
+        element.style.left = target + "px";
+      }
+    }, 10);
+  }
+　/*　function get$(id) {
+  　　 return document.getElementById(id);
+　　　　}*/
+</script>
+</body>
+</html>	
